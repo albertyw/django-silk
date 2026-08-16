@@ -1,6 +1,21 @@
 # Change Log
 ## Unreleased
 
+**Backwards incompatible:** `SILKY_IGNORE_PATHS` entries are now matched against
+`request.path_info` instead of `request.path`.  For most deployments these are
+identical and nothing changes.  If silk runs behind a front-end web server that
+sets a `SCRIPT_NAME` prefix, and you worked around #349 by writing that prefix
+into your `SILKY_IGNORE_PATHS` entries (e.g. `/some-prefix/healthz`), remove the
+prefix (`/healthz`) or those paths will no longer be ignored.
+
+**Fixes:**
+
+ - Fix SILKY_IGNORE_PATHS matching when used with a SCRIPT_NAME prefix (#888) @agu2347
+
+**Maintenance and Cleanup:**
+
+ - Drop support for EOL Django 4.2 and 5.1 (#891) @albertyw
+
 ## [5.5.2](https://github.com/jazzband/django-silk/tree/5.5.2) (2026-08-11)
 :release-by: Albert Wang (@albertyw)
 [Full Changelog](https://github.com/jazzband/django-silk/compare/5.5.0..5.5.2)
