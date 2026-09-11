@@ -21,6 +21,7 @@ Silk is a live profiling and inspection tool for the Django framework. Silk inte
   * [Request/Response bodies](#requestresponse-bodies)
   * [Meta-Profiling](#meta-profiling)
   * [Recording a fraction of requests](#recording-a-fraction-of-requests)
+  * [Ignoring specific paths](#ignoring-specific-paths)
   * [Limiting request/response data](#limiting-requestresponse-data)
   * [Clearing logged data](#clearing-logged-data)
 * [Contributing](#contributing)
@@ -494,6 +495,20 @@ You can also use a `lambda`.
 # log only session has recording enabled.
 SILKY_INTERCEPT_FUNC = lambda request: 'record_requests' in request.session
 ```
+
+### Ignoring specific paths
+
+To stop silk recording particular paths entirely, list them in `SILKY_IGNORE_PATHS`:
+
+```python
+SILKY_IGNORE_PATHS = ['/healthz', '/readyz']
+```
+
+Entries are matched exactly against `request.path_info`, which is the request path
+*without* any `SCRIPT_NAME` prefix your front-end web server may add.  So if silk is
+mounted under `/some-prefix/`, write `/healthz` rather than `/some-prefix/healthz`.
+
+Silk's own views are always ignored and do not need to be listed here.
 
 ### Limiting request/response data
 
